@@ -1,0 +1,45 @@
+application: gae-voting-ajax-example
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+default_expiration: "0d 0h 5m"
+
+builtins:
+- appstats: on
+- remote_api: on
+
+libraries:
+- name: jinja2
+  version: latest
+
+- name: webapp2
+  version: latest
+
+- name: PIL
+  version: latest
+
+handlers:
+
+- url: /_ah/login_required
+  script: login_required.app
+
+- url: /assets
+  static_dir: assets
+
+- url: /robots.txt
+  static_files: assets/robots.txt
+  upload: assets/robots.txt
+
+
+- url: /favicon.ico
+  static_files: assets/img/favicon.png
+  upload: assets/img/favicon.png
+
+- url: /admin/.*
+  script: google.appengine.ext.admin.application
+  login: admin
+
+- url: .*
+  script: main.app

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+
+        <base href="/">
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    </head>
+    <body>
+
+        <h2>{{story.title}}</h2>
+        <div>
+            <span class="voteCount">{{story.vote_count}}</span>  | <a href="javascript:VoteUp('{{story.key.id()}}');" >Vote Up Story</a>
+        </div>
+        <script>
+            function VoteUp(storyKey){
+                $.ajax({
+                  type: "POST",
+                  url: "/vote/",
+                  dataType: 'json',
+                  data: JSON.stringify({ "storyKey": storyKey})
+                })
+                .done(function( data ) {
+                    alert( "Vote Cast!!! Count is : " + data['story']['vote_count'] );
+                    $('.voteCount').text(data['story']['vote_count']);
+                });
+            };
+        </script>
+    </body>
+</html>
